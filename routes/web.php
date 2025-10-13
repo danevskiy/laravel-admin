@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\Second;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,7 @@ Route::get('/', function () {
 
 Auth::routes(['register' => false]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/companies', [App\Http\Controllers\CompanyController::class, 'index'])->name('company');
-Route::get('/employees', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee');
+Route::get('/companies', [App\Http\Controllers\CompanyController::class, 'index'])->name('company')->middleware('auth');
+Route::get('/employees', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee')->middleware('auth');
