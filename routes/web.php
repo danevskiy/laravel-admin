@@ -20,3 +20,6 @@ Route::get('/', function () {
 Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/companies', [App\Http\Controllers\CompanyController::class, 'index'])->name('company');
+Route::get('/employees', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee');
