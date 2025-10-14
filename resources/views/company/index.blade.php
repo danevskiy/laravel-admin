@@ -5,9 +5,16 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Companies') }}</div>
+                <div class="card-header" style="display:flex; justify-content:space-between;"><span>{{ __('Companies') }}</span> <a href="/companies/create">Add new</a></div>
 
                 <div class="card-body">
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    <div>
+                    @if(count($companies) > 0)
                     <table class="table">
                         <thead>
                             <tr>
@@ -21,13 +28,22 @@
                                 <tr>
                                     <th scope="row">{{ $company->id }}</th>
                                     <td>{{ $company->name }}</td>
-                                    <td><a href="/companies/1">Edit</a></td>
+                                    <td><a href="/companies/{{ $company->id }}">Edit</a></td>
                                 </tr>
                              @endforeach
                         </tbody>
                     </table>
+                     @else
+                         <div>
+                            <span>There are no any records yet</span>
+                            <a href="/companies/create">Add new</a>
+
+                        </div>
+                     @endif
+
+                    </div>
                    {{ $companies->links() }}
-                </div>
+               
                 
             </div>
         </div>

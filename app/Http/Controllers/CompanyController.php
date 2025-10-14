@@ -29,7 +29,9 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+        return view('company.create', [
+            'data' => []
+        ]);
     }
 
     /**
@@ -40,7 +42,39 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $validated = $request->validate([
+        'name' => 'required',
+        'email' => 'string|nullable',
+        'website' => 'string|nullable',
+        'logo' => [
+            'nullable',
+            'image',
+            'mimes:jpeg,png,jpg,gif,svg',
+            'dimensions:min_width=100,min_height=100', 
+        ],
+        ]);
+
+
+        $imagePath = null; // Initialize the path variable
+
+        if ($request->hasFile('logo')) {
+            // Only run store() if the file exists and passed validation
+            $imagePath = $request->file('logo')->store('companies', 'public');
+        }
+
+        $company = new Company;
+
+        $company->name = $validated['name'];
+        $company->email = $validated['email'];
+        $company->website = $validated['website'];
+        $company->logo = $imagePath;
+
+        $company->save();
+
+
+        return redirect()->route('companies')->with('success', 'Post created successfully!');
+
     }
 
     /**

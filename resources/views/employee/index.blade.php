@@ -9,6 +9,7 @@
 
                 <div class="card-body">
                    <div>
+                    @if(count($employees) > 0)
                     <table class="table">
                         <thead>
                             <tr>
@@ -27,6 +28,15 @@
                              @endforeach
                         </tbody>
                     </table>
+                     @else
+                        <div>
+                            <span>There are no any records yet</span>
+                            <a href="/employees/create">Add new</a>
+
+                        </div>
+                        
+
+                     @endif
                    </div>
 
                    {{ $employees->links() }}
