@@ -30,12 +30,18 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
+                        <li class="nav-item">
+                        <a class="nav-link {{ Request::routeIs('employees') ? 'active' : '' }}" aria-current="page" href="/employees">Employees</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link {{ Request::routeIs('companies') ? 'active' : '' }}" href="/companies">Companies</a>
+                        </li>
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">

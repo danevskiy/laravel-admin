@@ -22,5 +22,5 @@ Auth::routes(['register' => false]);
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/companies', [App\Http\Controllers\CompanyController::class, 'index'])->name('company')->middleware('auth');
-Route::get('/employees', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employee')->middleware('auth');
+Route::get('/companies', [App\Http\Controllers\CompanyController::class, 'index'])->name('companies')->middleware('auth');
+Route::get('/employees', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employees')->middleware('auth');

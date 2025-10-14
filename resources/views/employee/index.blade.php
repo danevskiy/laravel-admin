@@ -1,0 +1,38 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Employees') }}</div>
+
+                <div class="card-body">
+                   <div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             @foreach ($employees as $employee)
+                                <tr>
+                                    <th scope="row">{{ $employee->id }}</th>
+                                    <td>{{ $employee->first_name }}</td>
+                                    <td><a href="/employees/1">Edit</a></td>
+                                </tr>
+                             @endforeach
+                        </tbody>
+                    </table>
+                   </div>
+
+                   {{ $employees->links() }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
