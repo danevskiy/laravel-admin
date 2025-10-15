@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Company;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
 {
@@ -85,7 +86,17 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Company::findOrFail($id);
+
+        $company = new \stdClass();
+        $company->email = $data->email;
+        $company->name = $data->name;
+        $company->website = $data->website;
+        $company->logo = $data->logo;
+
+        return view('company.show', [
+            'data' => $company
+        ]);
     }
 
     /**
