@@ -74,7 +74,7 @@ class CompanyController extends Controller
         $company->save();
 
 
-        return redirect()->route('companies')->with('success', 'Post created successfully!');
+        return redirect()->route('companies')->with('success', 'Company created successfully!');
 
     }
 
@@ -86,17 +86,7 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        $data = Company::findOrFail($id);
-
-        $company = new \stdClass();
-        $company->email = $data->email;
-        $company->name = $data->name;
-        $company->website = $data->website;
-        $company->logo = $data->logo;
-
-        return view('company.show', [
-            'data' => $company
-        ]);
+       
     }
 
     /**
@@ -105,9 +95,22 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+
+         $data = Company::findOrFail($id);
+
+        $company = new \stdClass();
+        $company->email = $data->email;
+        $company->name = $data->name;
+        $company->website = $data->website;
+        $company->logo = $data->logo;
+
+        return view('company.edit', [
+            'data' => $company,
+            'id' => $id
+        ]);
+
     }
 
     /**
@@ -119,7 +122,36 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+        'name' => 'required',
+        'email' => 'string|nullable',
+        'website' => 'string|nullable',
+        'logo' => [
+            'nullable',
+            'image',
+            'mimes:jpeg,png,jpg,gif,svg',
+            'dimensions:min_width=100,min_height=100', 
+        ],
+        ]);
+
+
+        $imagePath = null;
+
+        if ($request->hasFile('logo')) { 
+             $imagePath = $request->file('logo')->store('companies', 'public');   
+             $validated['logo'] = $imagePath;
+        }
+
+        $company = Company::findOrFail($id);
+
+        
+
+        
+
+        $company->update($validated);
+
+       
+        return redirect()->route('company.edit', $company->id)->with('success', 'Company updated successfully!');
     }
 
     /**

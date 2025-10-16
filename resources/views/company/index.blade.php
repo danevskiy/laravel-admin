@@ -13,7 +13,7 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                    <div>
+                <div>
                     @if(count($companies) > 0)
                     <table class="table">
                         <thead>

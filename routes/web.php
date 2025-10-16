@@ -24,8 +24,9 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Route::get('/companies', [App\Http\Controllers\CompanyController::class, 'index'])->name('companies')->middleware('auth');
 Route::get('/companies/create', [App\Http\Controllers\CompanyController::class, 'create'])->name('company.create')->middleware('auth');
-Route::get('/companies/{id}', [App\Http\Controllers\CompanyController::class, 'show'])->name('company.show')->middleware('auth');
+Route::get('/companies/{id}', [App\Http\Controllers\CompanyController::class, 'edit'])->name('company.edit')->middleware('auth');
 Route::post('/companies/create', [App\Http\Controllers\CompanyController::class, 'store'])->name('company.store')->middleware('auth');
+Route::put('/companies/update/{id}', [App\Http\Controllers\CompanyController::class, 'update'])->name('company.update')->middleware('auth');
 
 
 
