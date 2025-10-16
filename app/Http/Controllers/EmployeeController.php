@@ -3,20 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use App\Models\Employee;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Company;
 
 class EmployeeController extends Controller
 {
-   /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $paginate_employee = Employee::paginate(10);
+        $paginate_employees = Employee::paginate(10);
+
         return view('employee.index', [
-            'employees' => $paginate_employee
+            'employees' => $paginate_employees
         ]);
     }
 
@@ -27,7 +31,11 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        $companies = Company::all();
+
+        return view('employee.create', [
+            'companies' => $companies
+        ]);
     }
 
     /**
@@ -38,7 +46,29 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $validated = $request->validate([
+        'first_name' => 'required',
+        'last_name' => 'required',
+        'email' => 'string|nullable',
+        'phone' => 'string|nullable',
+        'company_id' => 'nullable|integer',
+        ]);
+
+        $employee = new Employee;
+
+        $employee->first_name = $validated['first_name'];
+        $employee->last_name = $validated['last_name'];
+        $employee->email = $validated['email'];
+        $employee->phone = $validated['phone'];
+        $employee->company_id = $validated['company_id'];
+        
+
+        $employee->save();
+
+
+        return redirect()->route('employees')->with('success', 'Employee created successfully!');
+
     }
 
     /**
@@ -49,7 +79,7 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+       
     }
 
     /**
@@ -58,9 +88,18 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+
+        $data = Employee::findOrFail($id);
+        $companies = Company::all();
+
+        return view('employee.edit', [
+            'data' => $data,
+            'companies' => $companies,
+            'id' => $id
+        ]);
+
     }
 
     /**
@@ -72,7 +111,24 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+        'first_name' => 'required',
+        'last_name' => 'required',
+        'email' => 'string|nullable',
+        'phone' => 'string|nullable',
+        'company_id' => 'string|nullable',
+        ]);
+
+        $employee = Employee::findOrFail($id);
+
+        
+
+        
+
+        $employee->update($validated);
+
+       
+        return redirect()->route('employee.edit', $employee->id)->with('success', 'Employee updated successfully!');
     }
 
     /**

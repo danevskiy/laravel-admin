@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Company create') }}</div>
+                <div class="card-header">{{ __('Employee create') }}</div>
 
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -21,20 +21,15 @@
                 <div class="card-body">
                     <div>
                   
-                        <form action="{{ route('company.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('employee.store') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" name="name" class="form-control" id="name" aria-describedby="name">
+                                <label for="first_name" class="form-label">First name</label>
+                                <input type="text" name="first_name" class="form-control" id="first_name" aria-describedby="first_name">
                             </div>
                             <div class="mb-3">
-                                <label for="logo" class="form-label">Upload Image (Optional, min 100x100)</label>
-                                <input 
-                                    type="file" 
-                                    name="logo" 
-                                    id="image" 
-                                    class="form-control"
-                                >
+                                <label for="last_name" class="form-label">Last name</label>
+                                <input type="text" name="last_name" class="form-control" id="last_name" aria-describedby="last_name">
                             </div>
                             <div class="mb-3">
                                 <label for="emailfield" class="form-label">Email address</label>
@@ -42,9 +37,20 @@
                                 <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                             </div>
                             <div class="mb-3">
-                                <label for="website" class="form-label">Website</label>
-                                <input type="text" name="website" class="form-control" id="website" aria-describedby="website">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="text" name="phone" class="form-control" id="phone" aria-describedby="phone">
                             </div>
+
+                            <select class="mb-3 form-select form-select-lg" name="company_id" aria-label="companies">
+                                <option selected value="">Select company</option>
+                                 @foreach ($companies as $company)
+                                  <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                 @endforeach  
+                            </select>
+
+
+
+                           
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
 

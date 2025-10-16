@@ -5,10 +5,15 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Employees') }}</div>
+                <div class="card-header" style="display:flex; justify-content:space-between;"><span>{{ __('Employees') }}</span> <a href="/employees/create">Add new</a></div>
 
                 <div class="card-body">
-                   <div>
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                <div>
                     @if(count($employees) > 0)
                     <table class="table">
                         <thead>
@@ -23,24 +28,23 @@
                                 <tr>
                                     <th scope="row">{{ $employee->id }}</th>
                                     <td>{{ $employee->first_name }}</td>
-                                    <td><a href="/employees/1">Edit</a></td>
+                                    <td><a href="/employees/{{ $employee->id }}">Edit</a></td>
                                 </tr>
                              @endforeach
                         </tbody>
                     </table>
                      @else
-                        <div>
+                         <div>
                             <span>There are no any records yet</span>
                             <a href="/employees/create">Add new</a>
 
                         </div>
-                        
-
                      @endif
-                   </div>
 
+                    </div>
                    {{ $employees->links() }}
-                </div>
+               
+                
             </div>
         </div>
     </div>

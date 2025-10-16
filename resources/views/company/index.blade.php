@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header" style="display:flex; justify-content:space-between;"><span>{{ __('Company') }}</span> <a href="/companies/create">Add new</a></div>
+                <div class="card-header" style="display:flex; justify-content:space-between;"><span>{{ __('Companies') }}</span> <a href="/companies/create">Add new</a></div>
 
                 <div class="card-body">
                     @if (session('success'))

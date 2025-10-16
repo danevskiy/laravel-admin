@@ -31,3 +31,7 @@ Route::put('/companies/update/{id}', [App\Http\Controllers\CompanyController::cl
 
 
 Route::get('/employees', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employees')->middleware('auth');
+Route::get('/employees/create', [App\Http\Controllers\EmployeeController::class, 'create'])->name('employee.create')->middleware('auth');
+Route::get('/employees/{id}', [App\Http\Controllers\EmployeeController::class, 'edit'])->name('employee.edit')->middleware('auth');
+Route::post('/employees/create', [App\Http\Controllers\EmployeeController::class, 'store'])->name('employee.store')->middleware('auth');
+Route::put('/employees/update/{id}', [App\Http\Controllers\EmployeeController::class, 'update'])->name('employee.update')->middleware('auth');

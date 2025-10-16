@@ -57,10 +57,9 @@ class CompanyController extends Controller
         ]);
 
 
-        $imagePath = null; // Initialize the path variable
+        $imagePath = null;
 
         if ($request->hasFile('logo')) {
-            // Only run store() if the file exists and passed validation
             $imagePath = $request->file('logo')->store('companies', 'public');
         }
 
@@ -98,16 +97,10 @@ class CompanyController extends Controller
     public function edit(Request $request, $id)
     {
 
-         $data = Company::findOrFail($id);
-
-        $company = new \stdClass();
-        $company->email = $data->email;
-        $company->name = $data->name;
-        $company->website = $data->website;
-        $company->logo = $data->logo;
+        $data = Company::findOrFail($id);
 
         return view('company.edit', [
-            'data' => $company,
+            'data' => $data,
             'id' => $id
         ]);
 
