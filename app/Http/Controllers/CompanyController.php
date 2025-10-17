@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Company;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CompanyEmail;
+use DataTables;
 
 class CompanyController extends Controller
 {
@@ -14,13 +17,19 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $paginate_companies = Company::paginate(10);
+        if($request->ajax()){
+        $companies = Company::query();
+        return DataTables::of($companies)
+        ->addIndexColumn()
+        ->addColumn('action', function($company){
+        return '<a href="'.route('company.edit', $company->id).'" class="btn btn-success btn-sm">Edit</a> <button  data-id="'.$company->id.'" class="btn btn-danger btn-sm delete-user">Delete</button>';
+        })
+        ->make(true);
+        }
 
-        return view('company.index', [
-            'companies' => $paginate_companies
-        ]);
+        return view('company.index');
     }
 
     /**
@@ -71,6 +80,8 @@ class CompanyController extends Controller
         $company->logo = $imagePath;
 
         $company->save();
+
+        Mail::to('danewskiy.work@gmail.com')->send(new CompanyEmail());
 
 
         return redirect()->route('companies')->with('success', 'Company created successfully!');
@@ -155,6 +166,13 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $company = Company::findOrFail($id);
+
+        if($company){
+            $company->delete();
+            return response(['status' => 'success', 'message' => 'Company deleted succesfully!']);
+        }
+
+         return response(['status' => 'failed', 'message' => 'Unable to delete company!']);
     }
 }

@@ -14,8 +14,8 @@
                         </div>
                     @endif
                 <div>
-                    @if(count($companies) > 0)
-                    <table class="table">
+                   
+                    <table id="myTable" class="table table-bordered data-table">
                         <thead>
                             <tr>
                             <th scope="col">#</th>
@@ -24,29 +24,54 @@
                             </tr>
                         </thead>
                         <tbody>
-                             @foreach ($companies as $company)
-                                <tr>
-                                    <th scope="row">{{ $company->id }}</th>
-                                    <td>{{ $company->name }}</td>
-                                    <td><a href="/companies/{{ $company->id }}">Edit</a></td>
-                                </tr>
-                             @endforeach
+                          
                         </tbody>
                     </table>
-                     @else
-                         <div>
-                            <span>There are no any records yet</span>
-                            <a href="/companies/create">Add new</a>
-
-                        </div>
-                     @endif
+                   
 
                     </div>
-                   {{ $companies->links() }}
+                 
                
                 
             </div>
         </div>
     </div>
 </div>
+        <script>
+    $(document).ready( function () {
+       const company_table = $('#myTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{route('companies')}}",
+        columns: [
+        {data: 'id', name: 'id'},
+        {data: 'name', name: 'name'},
+        {data: 'action', name: 'action', orderable:false, searchable:false}
+        ]
+        });
+
+        $('table').on('click', '.delete-user', function(){
+            const userId = $(this).data('id');
+            if(userId && confirm('Are you sure, you want to delete ?')){
+                $.ajax({
+                    url: `{{ url('companies/delete') }}/${userId}`,
+                    method:'DELETE',
+                    data: {
+                    _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if(response.status === 'success'){
+                        company_table.ajax.reload(null, false);
+                        } else{
+                            alert(response.message)
+                        }
+                    },
+                    error: function(error) {
+                         alert('Something went wrong')
+                    }
+                })
+            }
+        })
+    } );
+    </script>
 @endsection

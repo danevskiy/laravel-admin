@@ -27,6 +27,7 @@ Route::get('/companies/create', [App\Http\Controllers\CompanyController::class, 
 Route::get('/companies/{id}', [App\Http\Controllers\CompanyController::class, 'edit'])->name('company.edit')->middleware('auth');
 Route::post('/companies/create', [App\Http\Controllers\CompanyController::class, 'store'])->name('company.store')->middleware('auth');
 Route::put('/companies/update/{id}', [App\Http\Controllers\CompanyController::class, 'update'])->name('company.update')->middleware('auth');
+Route::delete('/companies/delete/{id}', [App\Http\Controllers\CompanyController::class, 'destroy'])->name('company.destroy')->middleware('auth');
 
 
 
