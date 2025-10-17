@@ -50,11 +50,11 @@
         ]
         });
 
-        $('table').on('click', '.delete-user', function(){
-            const userId = $(this).data('id');
-            if(userId && confirm('Are you sure, you want to delete ?')){
+        $('table').on('click', '.delete-it', function(){
+            const id = $(this).data('id');
+            if(id && confirm('Are you sure, you want to delete ?')){
                 $.ajax({
-                    url: `{{ url('companies/delete') }}/${userId}`,
+                    url: `{{ url('companies/delete') }}/${id}`,
                     method:'DELETE',
                     data: {
                     _token: '{{ csrf_token() }}'

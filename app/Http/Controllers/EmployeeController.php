@@ -7,6 +7,7 @@ use Illuminate\View\View;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Company;
+use DataTables;
 
 class EmployeeController extends Controller
 {
@@ -15,13 +16,19 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $paginate_employees = Employee::paginate(10);
+        if($request->ajax()){
+        $companies = Employee::query();
+        return DataTables::of($companies)
+        ->addIndexColumn()
+        ->addColumn('action', function($employee){
+        return '<a href="'.route('employee.edit', $employee->id).'" class="btn btn-success btn-sm">Edit</a> <button  data-id="'.$employee->id.'" class="btn btn-danger btn-sm delete-it">Delete</button>';
+        })
+        ->make(true);
+        }
 
-        return view('employee.index', [
-            'employees' => $paginate_employees
-        ]);
+        return view('employee.index');
     }
 
     /**
@@ -139,6 +146,13 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $company = Employee::findOrFail($id);
+
+        if($company){
+            $company->delete();
+            return response(['status' => 'success', 'message' => 'Employee deleted succesfully!']);
+        }
+
+        return response(['status' => 'failed', 'message' => 'Unable to delete employee!']);
     }
 }

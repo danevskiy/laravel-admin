@@ -24,7 +24,7 @@ class CompanyController extends Controller
         return DataTables::of($companies)
         ->addIndexColumn()
         ->addColumn('action', function($company){
-        return '<a href="'.route('company.edit', $company->id).'" class="btn btn-success btn-sm">Edit</a> <button  data-id="'.$company->id.'" class="btn btn-danger btn-sm delete-user">Delete</button>';
+        return '<a href="'.route('company.edit', $company->id).'" class="btn btn-success btn-sm">Edit</a> <button  data-id="'.$company->id.'" class="btn btn-danger btn-sm delete-it">Delete</button>';
         })
         ->make(true);
         }

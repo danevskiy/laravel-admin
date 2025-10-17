@@ -36,3 +36,4 @@ Route::get('/employees/create', [App\Http\Controllers\EmployeeController::class,
 Route::get('/employees/{id}', [App\Http\Controllers\EmployeeController::class, 'edit'])->name('employee.edit')->middleware('auth');
 Route::post('/employees/create', [App\Http\Controllers\EmployeeController::class, 'store'])->name('employee.store')->middleware('auth');
 Route::put('/employees/update/{id}', [App\Http\Controllers\EmployeeController::class, 'update'])->name('employee.update')->middleware('auth');
+Route::delete('/employees/delete/{id}', [App\Http\Controllers\EmployeeController::class, 'destroy'])->name('employee.destroy')->middleware('auth');
